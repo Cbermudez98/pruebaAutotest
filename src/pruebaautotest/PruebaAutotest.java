@@ -15,7 +15,8 @@ public class PruebaAutotest {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        Leer datos = new Leer();
+        datos.leer("./21088239.far");
     }
     
 }
