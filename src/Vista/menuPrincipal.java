@@ -5,28 +5,51 @@
  */
 package vista;
 
+import Controlador.ControladorAltria;
 import Controlador.ControladorCorreo;
 import Controlador.ControladorRevision;
+import Controlador.ControladorTwilio;
+import Controlador.ControladorWhatsapp;
 import Modelo.Correo;
+import Modelo.Mensaje;
 import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
+import com.sun.awt.AWTUtilities;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.Shape;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.awt.geom.RoundRectangle2D;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.lang.String;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
+import javafx.scene.control.DatePicker;
+import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.UIManager;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.BorderUIResource;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 /**
  *
@@ -38,28 +61,37 @@ public class menuPrincipal extends javax.swing.JFrame {
      * Creates new form menuPrincipal
      */
     DefaultTableModel dtm = new DefaultTableModel();
+    ArrayList l;
 
     public menuPrincipal() {
         initComponents();
-        this.setSize(700, 400);
+        this.setSize(700, 450);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         ImageIcon i = new ImageIcon(getClass().getResource("/Iconos/icons8-email-64.png"));
         ImageIcon carga = new ImageIcon(getClass().getResource("/Iconos/Spinner.gif"));
         btnEnviarcorreo.setCursor(new Cursor(HAND_CURSOR));
+        btnEnviarcorreo.setFocusPainted(false);
+        reinciarEnvio.setCursor(new Cursor(HAND_CURSOR));
+        reinciarEnvio.setFocusPainted(false);
+        btnMensaje.setCursor(new Cursor(HAND_CURSOR));
+        btnMensaje.setFocusPainted(false);
         Image i2 = i.getImage();
         this.setIconImage(i2);
-        spinnerF.setSize(43, 43);
-        Image spinner = carga.getImage().getScaledInstance(spinnerF.getWidth(), spinnerF.getHeight(), Image.SCALE_SMOOTH);
-        Icon icon = new ImageIcon(spinner);
-        spinnerF.setIcon(icon);
-        
+
         dtm.addColumn("placa");
         dtm.addColumn("fecha revision");
         dtm.addColumn("Correo cliente");
+        dtm.addColumn("Telefono");
         Correo.setBorder(new EmptyBorder(5, 10, 5, 10));
         jMenu1.setCursor(new Cursor(HAND_CURSOR));
         Correo.setCursor(new Cursor(HAND_CURSOR));
+        Mensaje.setCursor(new Cursor(HAND_CURSOR));
+        Mensaje.setBorder(new EmptyBorder(5, 10, 5, 10));
+
+        fecha1.setCursor(new Cursor(HAND_CURSOR));
+        fecha2.setCursor(new Cursor(HAND_CURSOR));
+
         try {
             UIManager.setLookAndFeel(new FlatArcIJTheme());
             UIManager.put("Component.arrowType", "chevron");
@@ -71,6 +103,50 @@ public class menuPrincipal extends javax.swing.JFrame {
         } catch (Exception ex) {
             System.err.println("Failed to initialize LaF");
         }
+
+        //Personalizar los botones de java
+        //btnEnviarcorreo.setBackground(Color.decode("#1e81b0"));
+        btnEnviarcorreo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnEnviarcorreo.setBackground(Color.decode("#778899"));
+                btnEnviarcorreo.setForeground(Color.decode("#FFFFF0"));
+                //btnEnviarcorreo.setSize(new Dimension(btnEnviarcorreo.getWidth()+5,btnEnviarcorreo.getHeight()+5));
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnEnviarcorreo.setBackground(UIManager.getColor("#fff"));
+                //btnEnviarcorreo.setSize(new Dimension(btnEnviarcorreo.getWidth()-5,btnEnviarcorreo.getHeight()-5));
+                btnEnviarcorreo.setForeground(Color.BLACK);
+            }
+        });
+
+        reinciarEnvio.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                reinciarEnvio.setBackground(Color.decode("#778899"));
+                reinciarEnvio.setForeground(Color.decode("#FFFFF0"));
+                //reinciarEnvio.setSize(new Dimension(reinciarEnvio.getWidth()+5,reinciarEnvio.getHeight()+5));
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                reinciarEnvio.setBackground(UIManager.getColor("#fff"));
+                //reinciarEnvio.setSize(new Dimension(reinciarEnvio.getWidth()-5,reinciarEnvio.getHeight()-5));
+                reinciarEnvio.setForeground(Color.BLACK);
+            }
+        });
+        
+        btnMensaje.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnMensaje.setBackground(Color.decode("#778899"));
+                btnMensaje.setForeground(Color.decode("#FFFFF0"));
+                //reinciarEnvio.setSize(new Dimension(reinciarEnvio.getWidth()+5,reinciarEnvio.getHeight()+5));
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnMensaje.setBackground(UIManager.getColor("#fff"));
+                //reinciarEnvio.setSize(new Dimension(reinciarEnvio.getWidth()-5,reinciarEnvio.getHeight()-5));
+                btnMensaje.setForeground(Color.BLACK);
+            }
+        });
     }
 
     /**
@@ -85,14 +161,21 @@ public class menuPrincipal extends javax.swing.JFrame {
         btnEnviarcorreo = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblEnvios = new javax.swing.JTable();
-        spinnerF = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        fecha1 = new com.toedter.calendar.JDateChooser();
+        fecha2 = new com.toedter.calendar.JDateChooser();
+        reinciarEnvio = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        btnMensaje = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         Correo = new javax.swing.JMenuItem();
+        Mensaje = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btnEnviarcorreo.setText("Enviar");
+        btnEnviarcorreo.setText("Correo");
         btnEnviarcorreo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEnviarcorreoActionPerformed(evt);
@@ -109,7 +192,25 @@ public class menuPrincipal extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(tblEnvios);
 
-        spinnerF.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/Spinner.gif"))); // NOI18N
+        jLabel1.setText("Selecione un rando de fechas");
+
+        reinciarEnvio.setText("Reinciar Envio");
+        reinciarEnvio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reinciarEnvioActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Fecha Inicial");
+
+        jLabel3.setText("Fecha Final");
+
+        btnMensaje.setText("Mensaje");
+        btnMensaje.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMensajeActionPerformed(evt);
+            }
+        });
 
         jMenu1.setText("| Parametros |");
 
@@ -120,6 +221,14 @@ public class menuPrincipal extends javax.swing.JFrame {
             }
         });
         jMenu1.add(Correo);
+
+        Mensaje.setText("Mensajes");
+        Mensaje.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MensajeActionPerformed(evt);
+            }
+        });
+        jMenu1.add(Mensaje);
 
         jMenuBar1.add(jMenu1);
 
@@ -134,25 +243,49 @@ public class menuPrincipal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnEnviarcorreo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spinnerF, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnMensaje)
+                        .addGap(18, 18, 18)
+                        .addComponent(reinciarEnvio)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 545, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(fecha1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel2))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel3)
+                                            .addComponent(fecha2, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1)
+                .addGap(8, 8, 8)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(btnEnviarcorreo))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(spinnerF, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(10, Short.MAX_VALUE))
+                    .addComponent(fecha1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fecha2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEnviarcorreo)
+                    .addComponent(reinciarEnvio)
+                    .addComponent(btnMensaje))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -162,19 +295,39 @@ public class menuPrincipal extends javax.swing.JFrame {
         VistaCorreo v = new VistaCorreo();
         v.setVisible(true);
     }//GEN-LAST:event_CorreoActionPerformed
+    //No esta en uso
+    public static String RestarFecha(String fecha) {
+        String f[] = fecha.split("-");
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Integer.parseInt(f[0]) - 1, Integer.parseInt(f[1]) - 1, Integer.parseInt(f[2]));
+        SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd");
+        return s.format(calendar.getTime());
+    }
 
     private void btnEnviarcorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarcorreoActionPerformed
         //necesito enviar smtp, puerto, vehiculo, asunto, placa, correo, fecha de revision
         ControladorRevision cr = new ControladorRevision();
         Correo c = ControladorCorreo.BuscarCoreo();
-        ArrayList l;
+        //ArrayList l;
 
+        if (fecha1.getDate() == null || fecha2.getDate() == null) {
+            JOptionPane.showMessageDialog(null, "Error seleccione fechas", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        Date date = fecha1.getDate();
+        Date date2 = fecha2.getDate();
+
+        String full = new SimpleDateFormat("yyyy-MM-dd").format(date);
+        String full2 = new SimpleDateFormat("yyyy-MM-dd").format(date2);
+        System.out.println(full);
+        System.out.println(full2);
         tblEnvios.setModel(dtm);
-        //tblEnvios.setDefaultEditor(Object.class, null);
+        tblEnvios.setDefaultEditor(Object.class, null);
         boolean gmail = false;
         if (c != null) {
             try {
-                l = cr.buscarVehiculo();
+                l = cr.buscarVehiculo(full, full2);
                 String tem[] = null;
                 if (c.getCorreo().contains("@gmail.com")) {
                     gmail = true;
@@ -199,7 +352,7 @@ public class menuPrincipal extends javax.swing.JFrame {
                     }
                 }
 
-                JOptionPane.showMessageDialog(null,"Enviados con exito");
+                JOptionPane.showMessageDialog(null, "Enviados con exito");
 
                 for (int i = 0; i < l.size(); i++) {
                     String tempo[] = null;
@@ -212,10 +365,76 @@ public class menuPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnEnviarcorreoActionPerformed
 
-    public void iconImage(){
-        
-    }
-    
+    private void reinciarEnvioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reinciarEnvioActionPerformed
+        // TODO add your handling code here:
+        tblEnvios.setModel(new DefaultTableModel());
+        l.clear();
+        fecha1.setDate(null);
+        fecha2.setDate(null);
+    }//GEN-LAST:event_reinciarEnvioActionPerformed
+
+    private void btnMensajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMensajeActionPerformed
+        // TODO add your handling code here:
+        Mensaje m = null;
+        try {
+            m = ControladorAltria.obtenerMensaje();
+            if (m != null) {
+                ControladorRevision cr = new ControladorRevision();
+                //ArrayList l;
+
+                if (fecha1.getDate() == null || fecha2.getDate() == null) {
+                    JOptionPane.showMessageDialog(null, "Error seleccione fechas", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                Date date = fecha1.getDate();
+                Date date2 = fecha2.getDate();
+
+                String full = new SimpleDateFormat("yyyy-MM-dd").format(date);
+                String full2 = new SimpleDateFormat("yyyy-MM-dd").format(date2);
+                System.out.println(full);
+                System.out.println(full2);
+                tblEnvios.setModel(dtm);
+                tblEnvios.setDefaultEditor(Object.class, null);
+                boolean gmail = false;
+                if (m != null) {
+                    try {
+                        l = cr.buscarVehiculo(full, full2);
+                        String tem[] = null;
+
+                        Iterator it = l.iterator();
+                        while (it.hasNext()) {
+                            //System.out.println(it.next().toString());
+                            tem = it.next().toString().split(";");
+                            //System.out.println(tem[2].toString());
+                            //ControladorAltria.EnviarSms(tem[4]);
+                        }
+
+                        JOptionPane.showMessageDialog(null, "Enviados con exito");
+
+                        for (int i = 0; i < l.size(); i++) {
+                            String tempo[] = null;
+                            tempo = l.get(i).toString().split(";");
+                            dtm.addRow(tempo);
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(menuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                //ControladorAltria.EnviarSms();
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(menuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_btnMensajeActionPerformed
+
+    private void MensajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MensajeActionPerformed
+        // TODO add your handling code here:
+        Vista.VistaMensaje v = new Vista.VistaMensaje();
+        v.setVisible(true);
+    }//GEN-LAST:event_MensajeActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -225,7 +444,7 @@ public class menuPrincipal extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        /* Create and display the form */
+ /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new menuPrincipal().setVisible(true);
@@ -235,11 +454,18 @@ public class menuPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Correo;
+    private javax.swing.JMenuItem Mensaje;
     private javax.swing.JButton btnEnviarcorreo;
+    private javax.swing.JButton btnMensaje;
+    private static com.toedter.calendar.JDateChooser fecha1;
+    private static com.toedter.calendar.JDateChooser fecha2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JLabel spinnerF;
+    private javax.swing.JButton reinciarEnvio;
     private javax.swing.JTable tblEnvios;
     // End of variables declaration//GEN-END:variables
 }

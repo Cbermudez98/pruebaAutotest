@@ -18,6 +18,8 @@ import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.activation.DataHandler;
+import javax.activation.FileDataSource;
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.PasswordAuthentication;
@@ -140,9 +142,13 @@ public class ControladorCorreo {
                 text.setText(c.getMensaje());
                 BodyPart text2 = new MimeBodyPart();
                 text2.setText(informacion);
+                BodyPart imagenAdjunta = new MimeBodyPart();
+                imagenAdjunta.setDataHandler(new DataHandler(new FileDataSource("C:\\Reportes\\logocda.png")));
+                imagenAdjunta.setFileName("logocda.png");
                 MimeMultipart m = new MimeMultipart();
                 m.addBodyPart(text);
                 m.addBodyPart(text2);
+                m.addBodyPart(imagenAdjunta);
 
                 MimeMessage message = new MimeMessage(session);
                 message.setFrom(new InternetAddress(c.getCorreo()));

@@ -32,6 +32,7 @@ public class VistaCorreo extends javax.swing.JFrame {
         this.setTitle("Agregar Correo");
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        this.setResizable(false);
         Agregarcorreo.setCursor(new Cursor(HAND_CURSOR));
         ImageIcon i = new ImageIcon(getClass().getResource("/Iconos/icons8-email-64.png"));
         Image i2 = i.getImage();

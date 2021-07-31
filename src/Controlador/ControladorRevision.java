@@ -25,7 +25,7 @@ public class ControladorRevision {
     public static Connection con;
     public static ArrayList lista;
 
-    public static ArrayList buscarVehiculo() throws SQLException {
+    public static ArrayList buscarVehiculo(String fecha1, String fecha2) throws SQLException {
         PreparedStatement pst = null;
         ResultSet rs = null;
         Revision r = new Revision();
@@ -39,21 +39,22 @@ public class ControladorRevision {
             rs = pst.executeQuery();
             lista = new ArrayList<>();
             ArrayList tem = new ArrayList<>();
-            
+
             while (rs.next()) {
 
                 //System.out.println("1: " + rs.getString(1) + ", 2:" + rs.getString(2) + ", 3:" + rs.getString(3) + ", 4:" + rs.getString(4));
-                pst2 = con.prepareStatement("select revision.targa, revision.fecha, cliente.correo from revision,cliente where datediff(now(),'" + rs.getString(3) + "') <= 365 and consecutivowil = '" + rs.getString(1) + "' and revision.numerodocumento = cliente.numerodocumento");
+                pst2 = con.prepareStatement("select revision.targa, revision.fecha, cliente.correo, cliente.telefono from revision,cliente where fecha between '"+ fecha1 +"' and '"+fecha2+"' and consecutivowil = '" + rs.getString(1) + "' and revision.numerodocumento = cliente.numerodocumento");
                 rs2 = pst2.executeQuery();
                 //JOptionPane.showMessageDialog(null,pst2);
                 if (rs2.next()) {
-                    if (!rs2.getString(3).trim().equals("NA")) {
-                        cont++;
-                        Object temp[] = {rs2.getString(1),rs2.getString(2),rs2.getString(3)};
-                    
+                    //if (!rs2.getString(3).trim().equals("NA") && !rs2.getString(3).trim().equals("Na") && !rs2.getString(3).trim().equals(".NA") && !rs2.getString(3).trim().equals("NO TIENE") && !rs2.getString(3).trim().equals("") && !rs2.getString(3).trim().equals(null) && !rs2.getString(4).trim().equals("0")) {
+                    if(rs2.getString(3).trim().contains("@") && !rs2.getString(4).trim().equals("0") && longitudCadena(rs2.getString(4).trim()) == 10){  
+                    cont++;
+                        Object temp[] = {rs2.getString(1), rs2.getString(2), rs2.getString(3),rs2.getString(4)};
+
                         //System.out.println(cont);
-                        lista.add(rs2.getString(1) + ";" + rs2.getString(2) + ";" + rs2.getString(3));
-                        
+                        lista.add(rs2.getString(1) + ";" + rs2.getString(2) + ";" + rs2.getString(3)+";"+rs2.getString(4));
+
                         //lista.add(temp);
                         //System.out.println(temp);
                         //System.out.println(Arrays.toString(temp));
@@ -68,5 +69,10 @@ public class ControladorRevision {
             e.printStackTrace();
         }
         return lista;
+    }
+    
+    public static int longitudCadena(String cadena){
+        int cont = cadena.trim().length();
+        return cont;
     }
 }

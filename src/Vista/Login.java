@@ -43,7 +43,7 @@ public class Login extends javax.swing.JFrame {
         AWTUtilities.setWindowShape(this, forma);
         close.setCursor(new Cursor(Cursor.HAND_CURSOR));
         this.getContentPane().setBackground(Color.decode("#212d3e"));
-        
+
         ImageIcon i = new ImageIcon(getClass().getResource("/Iconos/icons8-email-64.png"));
         Image i2 = i.getImage();
         this.setIconImage(i2);
