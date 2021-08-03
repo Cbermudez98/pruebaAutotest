@@ -5,11 +5,10 @@
  */
 package vista;
 
-import Controlador.ControladorAltria;
+import Controlador.ControladorAltiria;
 import Controlador.ControladorCorreo;
+import Controlador.ControladorExcel;
 import Controlador.ControladorRevision;
-import Controlador.ControladorTwilio;
-import Controlador.ControladorWhatsapp;
 import Modelo.Correo;
 import Modelo.Mensaje;
 import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
@@ -83,16 +82,16 @@ public class menuPrincipal extends javax.swing.JFrame {
         dtm.addColumn("fecha revision");
         dtm.addColumn("Correo cliente");
         dtm.addColumn("Telefono");
-        Correo.setBorder(new EmptyBorder(5, 10, 5, 10));
+        //Correo.setBorder(new EmptyBorder(5, 5, 5, 5));
         jMenu1.setCursor(new Cursor(HAND_CURSOR));
         Correo.setCursor(new Cursor(HAND_CURSOR));
         Mensaje.setCursor(new Cursor(HAND_CURSOR));
-        Mensaje.setBorder(new EmptyBorder(5, 10, 5, 10));
+        //Mensaje.setBorder(new EmptyBorder(5, 5, 5, 5));
 
         fecha1.setCursor(new Cursor(HAND_CURSOR));
         fecha2.setCursor(new Cursor(HAND_CURSOR));
 
-        try {
+        /*try {
             UIManager.setLookAndFeel(new FlatArcIJTheme());
             UIManager.put("Component.arrowType", "chevron");
             UIManager.put("ScrollBar.trackArc", 999);
@@ -102,11 +101,25 @@ public class menuPrincipal extends javax.swing.JFrame {
             UIManager.put("ScrollBar.track", new Color(0xe0e0e0));
         } catch (Exception ex) {
             System.err.println("Failed to initialize LaF");
+        }*/
+        try {
+            UIManager.setLookAndFeel(new FlatArcIJTheme());
+            UIManager.put("Component.arrowType", "chevron");
+            UIManager.put("ScrollBar.trackArc", 999);
+            UIManager.put("ScrollBar.thumbArc", 999);
+            UIManager.put("ScrollBar.trackInsets", new Insets(2, 4, 2, 4));
+            UIManager.put("ScrollBar.thumbInsets", new Insets(2, 2, 2, 2));
+            UIManager.put("ScrollBar.track", new Color(0xe0e0e0));
+            UIManager.put("Button.arc", 999);
+            UIManager.put("TabbedPane.selectedBackground", Color.white);
+        } catch (Exception ex) {
+            System.err.println("Failed to initialize LaF");
         }
 
         //Personalizar los botones de java
         //btnEnviarcorreo.setBackground(Color.decode("#1e81b0"));
-        btnEnviarcorreo.addMouseListener(new java.awt.event.MouseAdapter() {
+        /*btnEnviarcorreo.addMouseListener(new java.awt.event.MouseAdapter() {
+
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnEnviarcorreo.setBackground(Color.decode("#778899"));
                 btnEnviarcorreo.setForeground(Color.decode("#FFFFF0"));
@@ -118,7 +131,8 @@ public class menuPrincipal extends javax.swing.JFrame {
                 //btnEnviarcorreo.setSize(new Dimension(btnEnviarcorreo.getWidth()-5,btnEnviarcorreo.getHeight()-5));
                 btnEnviarcorreo.setForeground(Color.BLACK);
             }
-        });
+        }
+        );
 
         reinciarEnvio.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -133,7 +147,7 @@ public class menuPrincipal extends javax.swing.JFrame {
                 reinciarEnvio.setForeground(Color.BLACK);
             }
         });
-        
+
         btnMensaje.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnMensaje.setBackground(Color.decode("#778899"));
@@ -146,7 +160,7 @@ public class menuPrincipal extends javax.swing.JFrame {
                 //reinciarEnvio.setSize(new Dimension(reinciarEnvio.getWidth()-5,reinciarEnvio.getHeight()-5));
                 btnMensaje.setForeground(Color.BLACK);
             }
-        });
+        });*/
     }
 
     /**
@@ -243,9 +257,9 @@ public class menuPrincipal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnEnviarcorreo)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnMensaje)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(reinciarEnvio)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
@@ -323,7 +337,9 @@ public class menuPrincipal extends javax.swing.JFrame {
         System.out.println(full);
         System.out.println(full2);
         tblEnvios.setModel(dtm);
-        tblEnvios.setDefaultEditor(Object.class, null);
+        tblEnvios
+                .setDefaultEditor(Object.class,
+                        null);
         boolean gmail = false;
         if (c != null) {
             try {
@@ -343,12 +359,12 @@ public class menuPrincipal extends javax.swing.JFrame {
                     tem = it.next().toString().split(";");
                     //System.out.println(tem[2].toString());
                     if (gmail == true) {
-                        ControladorCorreo.enviarCorreo("smtp.gmail.com", "587", tem[0].toString(), c.getAsunto(), tem[2].toString(), tem[1].toString());
+                        //ControladorCorreo.enviarCorreo("smtp.gmail.com", "587", tem[0].toString(), c.getAsunto(), tem[2].toString(), tem[1].toString());
                         //System.out.println("smtp.gmail.com"+ "587" + tem[0].toString()+ c.getAsunto()+ tem[2].toString()+ tem[1].toString());
                     }
 
                     if (gmail == false) {
-                        ControladorCorreo.enviarCorreo("smtp.live.com", "25", tem[0].toString(), c.getAsunto(), tem[2].toString(), tem[1].toString());
+                        //ControladorCorreo.enviarCorreo("smtp.live.com", "25", tem[0].toString(), c.getAsunto(), tem[2].toString(), tem[1].toString());
                     }
                 }
 
@@ -358,9 +374,15 @@ public class menuPrincipal extends javax.swing.JFrame {
                     String tempo[] = null;
                     tempo = l.get(i).toString().split(";");
                     dtm.addRow(tempo);
+
                 }
+                ControladorExcel.exportarExcelCorreo(tblEnvios, full, full2);
             } catch (SQLException ex) {
-                Logger.getLogger(menuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(menuPrincipal.class
+                        .getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException io) {
+                Logger.getLogger(menuPrincipal.class
+                        .getName()).log(Level.SEVERE, null, io);
             }
         }
     }//GEN-LAST:event_btnEnviarcorreoActionPerformed
@@ -374,10 +396,16 @@ public class menuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_reinciarEnvioActionPerformed
 
     private void btnMensajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMensajeActionPerformed
-        // TODO add your handling code here:
+        /*try {
+            // TODO add your handling code here:
+            //ControladorAltiria.EnviarSms("3017852750");
+            ControladorAltiria.EnviarSms("3105267745", "VBI46F","2020-12-50");
+        } catch (IOException ex) {
+            Logger.getLogger(menuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
         Mensaje m = null;
         try {
-            m = ControladorAltria.obtenerMensaje();
+            m = ControladorAltiria.obtenerMensaje();
             if (m != null) {
                 ControladorRevision cr = new ControladorRevision();
                 //ArrayList l;
@@ -396,7 +424,6 @@ public class menuPrincipal extends javax.swing.JFrame {
                 System.out.println(full2);
                 tblEnvios.setModel(dtm);
                 tblEnvios.setDefaultEditor(Object.class, null);
-                boolean gmail = false;
                 if (m != null) {
                     try {
                         l = cr.buscarVehiculo(full, full2);
@@ -407,7 +434,7 @@ public class menuPrincipal extends javax.swing.JFrame {
                             //System.out.println(it.next().toString());
                             tem = it.next().toString().split(";");
                             //System.out.println(tem[2].toString());
-                            //ControladorAltria.EnviarSms(tem[4]);
+                            //ControladorAltiria.EnviarSms(tem[4], temp[1],temp[2]);
                         }
 
                         JOptionPane.showMessageDialog(null, "Enviados con exito");
@@ -417,14 +444,18 @@ public class menuPrincipal extends javax.swing.JFrame {
                             tempo = l.get(i).toString().split(";");
                             dtm.addRow(tempo);
                         }
+
+                        ControladorExcel.exportarExcelSMS(tblEnvios, full, full2);
                     } catch (SQLException ex) {
-                        Logger.getLogger(menuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(menuPrincipal.class
+                                .getName()).log(Level.SEVERE, null, ex);
+
                     }
                 }
-                //ControladorAltria.EnviarSms();
             }
         } catch (IOException ex) {
-            Logger.getLogger(menuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(menuPrincipal.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_btnMensajeActionPerformed
@@ -466,6 +497,6 @@ public class menuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton reinciarEnvio;
-    private javax.swing.JTable tblEnvios;
+    private static javax.swing.JTable tblEnvios;
     // End of variables declaration//GEN-END:variables
 }

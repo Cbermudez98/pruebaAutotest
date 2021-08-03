@@ -5,12 +5,13 @@
  */
 package Vista;
 
-import Controlador.ControladorAltria;
+import Controlador.ControladorAltiria;
 import Modelo.Mensaje;
 import java.awt.Cursor;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -23,6 +24,7 @@ public class VistaMensaje extends javax.swing.JFrame {
      */
     public VistaMensaje() {
         initComponents();
+        this.setTitle("Agregar Credenciales Altria");
         try {
             iniciar();
         } catch (IOException ex) {
@@ -48,6 +50,11 @@ public class VistaMensaje extends javax.swing.JFrame {
         txtCorreoMensaje = new javax.swing.JTextField();
         AgregarMensaje = new javax.swing.JButton();
         txtPasswordMensaje = new javax.swing.JPasswordField();
+        jLabel3 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtMensaje = new javax.swing.JTextArea();
+        jLabel4 = new javax.swing.JLabel();
+        longitudTxt = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -74,6 +81,21 @@ public class VistaMensaje extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setText("Mensaje:");
+
+        txtMensaje.setColumns(20);
+        txtMensaje.setRows(5);
+        txtMensaje.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtMensajeKeyTyped(evt);
+            }
+        });
+        jScrollPane1.setViewportView(txtMensaje);
+
+        jLabel4.setText("Longitud:");
+
+        longitudTxt.setText("               ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -84,15 +106,26 @@ public class VistaMensaje extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(AgregarMensaje)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel2))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtCorreoMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtPasswordMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(18, 18, 18))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtCorreoMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtPasswordMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(longitudTxt))
+                            .addComponent(jLabel3))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -105,9 +138,17 @@ public class VistaMensaje extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtPasswordMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(longitudTxt))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(AgregarMensaje)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -115,8 +156,10 @@ public class VistaMensaje extends javax.swing.JFrame {
 
     private void AgregarMensajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarMensajeActionPerformed
         // TODO add your handling code here:
-        if(!txtCorreoMensaje.getText().equals("") && !txtPasswordMensaje.getText().equals("")){
-            ControladorAltria.AgregerMensaje(txtCorreoMensaje.getText().trim(), txtPasswordMensaje.getText().trim());
+        if (!txtCorreoMensaje.getText().equals("") && !txtPasswordMensaje.getText().equals("") && !txtMensaje.getText().equals("")) {
+            ControladorAltiria.AgregerMensaje(txtCorreoMensaje.getText().trim(), txtPasswordMensaje.getText().trim(), txtMensaje.getText().trim());
+            JOptionPane.showMessageDialog(null, "Actualizado con exito");
+            this.dispose();
         }
     }//GEN-LAST:event_AgregarMensajeActionPerformed
 
@@ -124,12 +167,20 @@ public class VistaMensaje extends javax.swing.JFrame {
 
     }//GEN-LAST:event_txtPasswordMensajeActionPerformed
 
+    private void txtMensajeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMensajeKeyTyped
+        // TODO add your handling code here:
+        int longitud = txtMensaje.getText().trim().length();
+        longitudTxt.setText(longitud + "");
+    }//GEN-LAST:event_txtMensajeKeyTyped
+
     public static void iniciar() throws IOException {
         Mensaje m = null;
-        m = ControladorAltria.obtenerMensaje();
+        m = ControladorAltiria.obtenerMensaje();
         if (m != null) {
             txtCorreoMensaje.setText(m.getCorreo());
             txtPasswordMensaje.setText(m.getContrasena());
+            txtMensaje.setText(m.getMensaje());
+            longitudTxt.setText(m.getMensaje().trim().length()+"");
             //System.out.println(m.getCorreo()+" , "+m.getContrasena());
         }
     }
@@ -173,7 +224,12 @@ public class VistaMensaje extends javax.swing.JFrame {
     private javax.swing.JButton AgregarMensaje;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private static javax.swing.JLabel longitudTxt;
     private static javax.swing.JTextField txtCorreoMensaje;
+    private static javax.swing.JTextArea txtMensaje;
     private static javax.swing.JPasswordField txtPasswordMensaje;
     // End of variables declaration//GEN-END:variables
 }

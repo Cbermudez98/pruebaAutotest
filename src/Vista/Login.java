@@ -47,6 +47,22 @@ public class Login extends javax.swing.JFrame {
         ImageIcon i = new ImageIcon(getClass().getResource("/Iconos/icons8-email-64.png"));
         Image i2 = i.getImage();
         this.setIconImage(i2);
+
+        try {
+            UIManager.setLookAndFeel(new FlatArcIJTheme());
+            UIManager.put("Component.arrowType", "chevron");
+            UIManager.put("ScrollBar.trackArc", 999);
+            UIManager.put("ScrollBar.thumbArc", 999);
+            UIManager.put("ScrollBar.trackInsets", new Insets(2, 4, 2, 4));
+            UIManager.put("ScrollBar.thumbInsets", new Insets(2, 2, 2, 2));
+            UIManager.put("ScrollBar.track", new Color(0xe0e0e0));
+            UIManager.put("Button.arc", 999);
+            UIManager.put("Component.arc", 999);
+            UIManager.put("ProgressBar.arc", 999);
+            UIManager.put("TextComponent.arc", 999);
+        } catch (Exception ex) {
+            System.err.println("Failed to initialize LaF");
+        }
     }
 
     /**
@@ -318,17 +334,6 @@ public class Login extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                try {
-                    UIManager.setLookAndFeel(new FlatArcIJTheme());
-                    UIManager.put("Component.arrowType", "chevron");
-                    UIManager.put("ScrollBar.trackArc", 999);
-                    UIManager.put("ScrollBar.thumbArc", 999);
-                    UIManager.put("ScrollBar.trackInsets", new Insets(2, 4, 2, 4));
-                    UIManager.put("ScrollBar.thumbInsets", new Insets(2, 2, 2, 2));
-                    UIManager.put("ScrollBar.track", new Color(0xe0e0e0));
-                } catch (Exception ex) {
-                    System.err.println("Failed to initialize LaF");
-                }
                 new Login().setVisible(true);
             }
         });

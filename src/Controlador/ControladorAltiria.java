@@ -33,7 +33,7 @@ import org.apache.http.util.EntityUtils;
  *
  * @author Auxiliar
  */
-public class ControladorAltria {
+public class ControladorAltiria {
 
     public static Mensaje obtenerMensaje() throws IOException {
         Mensaje m = null;
@@ -42,8 +42,8 @@ public class ControladorAltria {
         String correo = "";
         String contrasena = "";
         String mensaje = "";
-        ControladorCorreo c = new ControladorCorreo();
-        Correo co = c.BuscarCoreo();
+        //ControladorCorreo c = new ControladorCorreo();
+        //Correo co = c.BuscarCoreo();
         try {
             File f = new File("C:\\Wil\\Mensaje.ini");
             FileReader fi = new FileReader(f);
@@ -59,9 +59,13 @@ public class ControladorAltria {
                     contrasena = cad;
                     //System.out.println(cad);
                 }
+
+                if (contador > 1) {
+                    mensaje += cad + "\n\r";
+                }
                 contador++;
             }
-            mensaje = co.getMensaje();
+            //mensaje = co.getMensaje();
             m = loadM(correo, contrasena, mensaje);
             return m;
         } catch (FileNotFoundException e) {
@@ -75,12 +79,12 @@ public class ControladorAltria {
         Mensaje m = new Mensaje();
         m.setCorreo(correo);
         m.setContrasena(contrasena);
-        m.setMensaje(mensaje);
+        m.setMensaje(mensaje.trim());
         //System.out.println(correo+", "+contrasena+", "+mensaje);
         return m;
     }
 
-    public static void AgregerMensaje(String correo, String contrasena) {
+    public static void AgregerMensaje(String correo, String contrasena, String mensaje) {
         try {
             String ruta = "C:\\Wil\\Mensaje.ini";
             String contenido = "";
@@ -94,19 +98,23 @@ public class ControladorAltria {
             PrintWriter pw = new PrintWriter(f);
             pw.println(correo);
             pw.println(contrasena);
+            pw.println(mensaje);
             pw.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void EnviarSms(String telefono) throws IOException {
+    public static void EnviarSms(String telefono, String placa, String fecha) throws IOException {
         //Se fija el tiempo m´aximo de espera para conectar con el servidor (5000)
         //Se fija el tiempo m´aximo de espera de la respuesta del servidor (60000)
         //String mensaje = "Cda prueba \n\rle informa que su tecnico mecanica esta apunto de vencer\n\ry lo invitamos a acercarse a nuestras instalacionres"
         //+" para renovar\n\r muchas gracias";
-        ControladorAltria ca = new ControladorAltria();
+        ControladorAltiria ca = new ControladorAltiria();
         Mensaje m = ca.obtenerMensaje();
+        
+        //String informacion = "informacion del vehículo \n\r placa del vehículo: "+vehiculo+"\n\r fecha de la revision: "+fechaRevision;
+        //System.out.println(m.getMensaje());
         RequestConfig config = RequestConfig.custom()
                 .setConnectTimeout(5000)
                 .setSocketTimeout(60000)
@@ -115,22 +123,25 @@ public class ControladorAltria {
         HttpClientBuilder builder = HttpClientBuilder.create();
         builder.setDefaultRequestConfig(config);
         CloseableHttpClient httpClient = builder.build();
-        //Se fija la URL sobre la que enviar la petici´on POST
+        //Se fija la URL sobre la que enviar la peticion POST
         HttpPost post = new HttpPost("http://www.altiria.net/api/http");
-        //Se crea la lista de par´ametros a enviar en la petici´on POST
+        //Se crea la lista de par´ametros a enviar en la peticion POST
         ArrayList<NameValuePair> parametersList = new ArrayList<NameValuePair>();
         //XX, YY y ZZ se corresponden con los valores de identificaci´on del
         //usuario en el sistema.
         parametersList.add(new BasicNameValuePair("cmd", "sendsms"));
         //domainId solo es necesario si el login no es un email
         //parametersList.add(new BasicNameValuePair("domainId", "XX"));
+        parametersList.add(new BasicNameValuePair("concat", "true"));
         parametersList.add(new BasicNameValuePair("login", m.getCorreo()));
         parametersList.add(new BasicNameValuePair("passwd", m.getContrasena()));
-        parametersList.add(new BasicNameValuePair("dest", "+57"+telefono));
-        //parametersList.add(new BasicNameValuePair("dest", "+573226333600"));
+        parametersList.add(new BasicNameValuePair("dest", "+57" + telefono));
+        //parametersList.add(new BasicNameValuePair("dest", "+57" + telefono));
         parametersList.add(new BasicNameValuePair("msg", m.getMensaje()));
-        //No es posible utilizar el remitente en Am´erica pero s´ı en Espa~na y Europa
-        //Descomentar la l´ınea solo si se cuenta con un remitente autorizado por Altiria
+        parametersList.add(new BasicNameValuePair("msg","Placa: "+placa.trim()));
+        parametersList.add(new BasicNameValuePair("msg","Fecha de revision: "+fecha.trim()));
+        //No es posible utilizar el remitente en America pero sı en España y Europa
+        //Descomentar la lınea solo si se cuenta con un remitente autorizado por Altiria
         //parametersList.add(new BasicNameValuePair("senderId", "remitente"));
         try {
             //Se fija la codificacion de caracteres de la peticion POST
@@ -140,7 +151,7 @@ public class ControladorAltria {
         }
         CloseableHttpResponse response = null;
         try {
-            System.out.println("Enviando petici´on");
+            System.out.println("Enviando peticion");
             //Se env´ıa la petici´on
             response = httpClient.execute(post);
             //Se consigue la respuesta
@@ -161,7 +172,7 @@ public class ControladorAltria {
                 }
             }
         } catch (Exception e) {
-            System.out.println("Excepci´on");
+            System.out.println("Excepcion");
             e.printStackTrace();
             return;
         } finally {
@@ -172,9 +183,9 @@ public class ControladorAltria {
                     response.close();
                 } catch (IOException ioe) {
                     System.out.println("ERROR cerrando recursos");
+                    ioe.printStackTrace();
                 }
             }
         }
-
     }
 }
