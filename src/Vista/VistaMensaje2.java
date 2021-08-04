@@ -173,7 +173,7 @@ public class VistaMensaje2 extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (!txtCorreoMensaje.getText().equals("") && !txtPasswordMensaje.getText().equals("") && !txtMensaje.getText().equals("")) {
             if (txtMensaje.getText().trim().length() > 160) {
-                JOptionPane.showMessageDialog(null, "Error mensaje demasiado largo", "ERROR", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Mensaje debe ser menor a 160 caracteres", "ERROR", JOptionPane.ERROR_MESSAGE);
             } else {
                 ControladorAltiria.AgregerMensaje(txtCorreoMensaje.getText().trim(), txtPasswordMensaje.getText().trim(), txtMensaje.getText().trim());
                 JOptionPane.showMessageDialog(null, "Actualizado con exito");
@@ -197,7 +197,7 @@ public class VistaMensaje2 extends javax.swing.JFrame {
         if (longitud > 160) {
             txtMensaje.setBorder(BorderFactory.createCompoundBorder(line,
                     BorderFactory.createEmptyBorder(3, 3, 3, 3)));
-            JOptionPane.showMessageDialog(null, "Error mensaje demasiado largo", "ERROR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Mensaje debe ser menor a 160 caracteres", "ERROR", JOptionPane.ERROR_MESSAGE);
         } else {
             txtMensaje.setBorder(BorderFactory.createCompoundBorder(border,
                     BorderFactory.createEmptyBorder(3, 3, 3, 3)));
