@@ -49,6 +49,7 @@ import javax.swing.plaf.BorderUIResource;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+import Vista.VistaMensaje;
 
 /**
  *
@@ -90,6 +91,8 @@ public class menuPrincipal extends javax.swing.JFrame {
 
         fecha1.setCursor(new Cursor(HAND_CURSOR));
         fecha2.setCursor(new Cursor(HAND_CURSOR));
+        fecha1.setSize(70, 20);
+        System.out.println("tamaño " + fecha1.getSize());
 
         /*try {
             UIManager.setLookAndFeel(new FlatArcIJTheme());
@@ -359,12 +362,13 @@ public class menuPrincipal extends javax.swing.JFrame {
                     tem = it.next().toString().split(";");
                     //System.out.println(tem[2].toString());
                     if (gmail == true) {
-                        //ControladorCorreo.enviarCorreo("smtp.gmail.com", "587", tem[0].toString(), c.getAsunto(), tem[2].toString(), tem[1].toString());
-                        //System.out.println("smtp.gmail.com"+ "587" + tem[0].toString()+ c.getAsunto()+ tem[2].toString()+ tem[1].toString());
+                        ControladorCorreo.enviarCorreo("smtp.gmail.com", "587", tem[0].toString(), c.getAsunto(), tem[2].toString(), tem[1].toString());
+                        System.out.println("smtp.gmail.com "+ "587 " + tem[0].toString()+" "+ c.getAsunto()+" "+ tem[2].toString()+" "+ tem[1].toString());
                     }
 
                     if (gmail == false) {
-                        //ControladorCorreo.enviarCorreo("smtp.live.com", "25", tem[0].toString(), c.getAsunto(), tem[2].toString(), tem[1].toString());
+                        ControladorCorreo.enviarCorreo("smtp.live.com", "25", tem[0].toString(), c.getAsunto(), tem[2].toString(), tem[1].toString());
+                        System.out.println("smtp.live.com "+ "25 " + tem[0].toString()+" "+ c.getAsunto()+" "+ tem[2].toString()+" "+ tem[1].toString());
                     }
                 }
 
@@ -434,7 +438,8 @@ public class menuPrincipal extends javax.swing.JFrame {
                             //System.out.println(it.next().toString());
                             tem = it.next().toString().split(";");
                             //System.out.println(tem[2].toString());
-                            //ControladorAltiria.EnviarSms(tem[4], temp[1],temp[2]);
+                            ControladorAltiria.EnviarSms(tem[3], tem[0],tem[1]);
+                            System.out.println(tem[3] + " " + tem[0] + " " + tem[1]);
                         }
 
                         JOptionPane.showMessageDialog(null, "Enviados con exito");
@@ -462,7 +467,7 @@ public class menuPrincipal extends javax.swing.JFrame {
 
     private void MensajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MensajeActionPerformed
         // TODO add your handling code here:
-        Vista.VistaMensaje v = new Vista.VistaMensaje();
+        VistaMensaje2 v = new VistaMensaje2();
         v.setVisible(true);
     }//GEN-LAST:event_MensajeActionPerformed
 

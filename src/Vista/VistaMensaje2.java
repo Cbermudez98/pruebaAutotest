@@ -3,16 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Vista;
+package vista;
 
 import Controlador.ControladorAltiria;
+import Controlador.ControladorCorreo;
+import Modelo.Correo;
 import Modelo.Mensaje;
 import java.awt.Color;
 import java.awt.Cursor;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.awt.Image;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 
@@ -20,12 +21,12 @@ import javax.swing.border.Border;
  *
  * @author Auxiliar
  */
-public class VistaMensaje extends javax.swing.JFrame {
+public class VistaMensaje2 extends javax.swing.JFrame {
 
     /**
-     * Creates new form VistaMensaje
+     * Creates new form VistaCorreo
      */
-    public VistaMensaje() {
+    public VistaMensaje2() {
         initComponents();
         this.setTitle("Agregar Credenciales Altria");
         iniciar();
@@ -33,6 +34,19 @@ public class VistaMensaje extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         AgregarMensaje.setCursor(new Cursor(HAND_CURSOR));
+
+        /*
+        try {
+            UIManager.setLookAndFeel(new FlatArcIJTheme());
+            UIManager.put("Component.arrowType", "chevron");
+            UIManager.put("ScrollBar.trackArc", 999);
+            UIManager.put("ScrollBar.thumbArc", 999);
+            UIManager.put("ScrollBar.trackInsets", new Insets(2, 4, 2, 4));
+            UIManager.put("ScrollBar.thumbInsets", new Insets(2, 2, 2, 2));
+            UIManager.put("ScrollBar.track", new Color(0xe0e0e0));
+        } catch (Exception ex) {
+            System.err.println("Failed to initialize LaF");
+        }*/
     }
 
     /**
@@ -44,7 +58,6 @@ public class VistaMensaje extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtCorreoMensaje = new javax.swing.JTextField();
         AgregarMensaje = new javax.swing.JButton();
@@ -54,10 +67,9 @@ public class VistaMensaje extends javax.swing.JFrame {
         txtMensaje = new javax.swing.JTextArea();
         jLabel4 = new javax.swing.JLabel();
         longitudTxt = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel1.setText("Correo:");
 
         jLabel2.setText("Contraseña:");
 
@@ -95,6 +107,8 @@ public class VistaMensaje extends javax.swing.JFrame {
 
         longitudTxt.setText("               ");
 
+        jLabel1.setText("Correo:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -112,7 +126,7 @@ public class VistaMensaje extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
                                     .addComponent(jLabel2))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtCorreoMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtPasswordMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -168,11 +182,22 @@ public class VistaMensaje extends javax.swing.JFrame {
 
     private void txtMensajeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMensajeKeyTyped
         // TODO add your handling code here:
+        Border line = BorderFactory.createLineBorder(Color.RED, 2);
+        Border line2 = BorderFactory.createEmptyBorder(0, 0, 0, 0);
+        Border border = BorderFactory.createLineBorder(Color.BLUE);
         int longitud = txtMensaje.getText().trim().length();
         longitudTxt.setText(longitud + "");
+        //Terminar de configurar
+        if (longitud > 160) {
+            txtMensaje.setBorder(BorderFactory.createCompoundBorder(line,
+            BorderFactory.createEmptyBorder(3, 3, 3, 3)));
+        } else {
+            txtMensaje.setBorder(BorderFactory.createCompoundBorder(border,
+            BorderFactory.createEmptyBorder(3, 3, 3, 3)));
+        }
     }//GEN-LAST:event_txtMensajeKeyTyped
 
-    public static void iniciar(){
+    public static void iniciar() {
         Mensaje m = null;
         m = ControladorAltiria.obtenerMensaje();
         if (m != null) {
@@ -201,20 +226,20 @@ public class VistaMensaje extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VistaMensaje.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaCorreo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VistaMensaje.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaCorreo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VistaMensaje.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaCorreo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VistaMensaje.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaCorreo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VistaMensaje().setVisible(true);
+                new VistaMensaje2().setVisible(true);
             }
         });
     }

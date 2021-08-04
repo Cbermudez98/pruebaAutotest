@@ -6,16 +6,11 @@
 package vista;
 
 import Controlador.ControladorCorreo;
-import Controlador.ControladorUsuario;
 import Modelo.Correo;
-import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
-import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Image;
-import java.awt.Insets;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
 
 /**
  *

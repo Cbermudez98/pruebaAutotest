@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
@@ -35,7 +37,7 @@ import org.apache.http.util.EntityUtils;
  */
 public class ControladorAltiria {
 
-    public static Mensaje obtenerMensaje() throws IOException {
+    public static Mensaje obtenerMensaje() {
         Mensaje m = null;
         String cad = "";
         int contador = 0;
@@ -61,7 +63,7 @@ public class ControladorAltiria {
                 }
 
                 if (contador > 1) {
-                    mensaje += cad + "\n\r";
+                    mensaje += cad+"\n";
                 }
                 contador++;
             }
@@ -70,9 +72,10 @@ public class ControladorAltiria {
             return m;
         } catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(null, "Error archivo Mensaje.ini no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch(IOException e){
+            Logger.getLogger(ControladorAltiria.class.getName()).log(Level.SEVERE, null, e);
         }
-
-        return null;
+        return m;
     }
 
     public static Mensaje loadM(String correo, String contrasena, String mensaje) {
