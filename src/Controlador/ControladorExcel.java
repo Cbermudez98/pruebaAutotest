@@ -52,6 +52,7 @@ public class ControladorExcel {
             hoja.setColumnWidth(1, 4500);
             hoja.setColumnWidth(2, 12000);
             hoja.setColumnWidth(3, 4000);
+            hoja.setColumnWidth(4, 12000);
 
             for (int f = 0; f < t.getRowCount(); f++) {
                 Row fila = hoja.createRow(f);
@@ -120,6 +121,7 @@ public class ControladorExcel {
             hoja.setColumnWidth(1, 4500);
             hoja.setColumnWidth(2, 12000);
             hoja.setColumnWidth(3, 4000);
+            hoja.setColumnWidth(4, 12000);
 
             hoja.setDisplayGridlines(false);
             for (int f = 0; f < t.getRowCount(); f++) {

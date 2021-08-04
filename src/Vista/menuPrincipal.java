@@ -50,6 +50,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import Vista.VistaMensaje;
+import javax.swing.table.TableColumnModel;
+import org.apache.poi.ss.usermodel.Table;
 
 /**
  *
@@ -83,6 +85,8 @@ public class menuPrincipal extends javax.swing.JFrame {
         dtm.addColumn("fecha revision");
         dtm.addColumn("Correo cliente");
         dtm.addColumn("Telefono");
+        dtm.addColumn("nombre cliente");
+
         //Correo.setBorder(new EmptyBorder(5, 5, 5, 5));
         jMenu1.setCursor(new Cursor(HAND_CURSOR));
         Correo.setCursor(new Cursor(HAND_CURSOR));
@@ -363,12 +367,12 @@ public class menuPrincipal extends javax.swing.JFrame {
                     //System.out.println(tem[2].toString());
                     if (gmail == true) {
                         ControladorCorreo.enviarCorreo("smtp.gmail.com", "587", tem[0].toString(), c.getAsunto(), tem[2].toString(), tem[1].toString());
-                        System.out.println("smtp.gmail.com "+ "587 " + tem[0].toString()+" "+ c.getAsunto()+" "+ tem[2].toString()+" "+ tem[1].toString());
+                        //System.out.println("smtp.gmail.com "+ "587 " + tem[0].toString()+" "+ c.getAsunto()+" "+ tem[2].toString()+" "+ tem[1].toString());
                     }
 
                     if (gmail == false) {
                         ControladorCorreo.enviarCorreo("smtp.live.com", "25", tem[0].toString(), c.getAsunto(), tem[2].toString(), tem[1].toString());
-                        System.out.println("smtp.live.com "+ "25 " + tem[0].toString()+" "+ c.getAsunto()+" "+ tem[2].toString()+" "+ tem[1].toString());
+                        //System.out.println("smtp.live.com "+ "25 " + tem[0].toString()+" "+ c.getAsunto()+" "+ tem[2].toString()+" "+ tem[1].toString());
                     }
                 }
 
@@ -380,6 +384,7 @@ public class menuPrincipal extends javax.swing.JFrame {
                     dtm.addRow(tempo);
 
                 }
+                extraTable();
                 ControladorExcel.exportarExcelCorreo(tblEnvios, full, full2);
             } catch (SQLException ex) {
                 Logger.getLogger(menuPrincipal.class
@@ -399,6 +404,19 @@ public class menuPrincipal extends javax.swing.JFrame {
         fecha2.setDate(null);
     }//GEN-LAST:event_reinciarEnvioActionPerformed
 
+    public static void extraTable() {
+        tblEnvios.getColumnModel().getColumn(0).setMaxWidth(55);
+        tblEnvios.getColumnModel().getColumn(0).setMinWidth(55);
+        tblEnvios.getColumnModel().getColumn(0).setResizable(false);
+        tblEnvios.getColumnModel().getColumn(1).setMaxWidth(90);
+        tblEnvios.getColumnModel().getColumn(1).setMinWidth(90);
+        tblEnvios.getColumnModel().getColumn(1).setResizable(false);
+        tblEnvios.getColumnModel().getColumn(2).setResizable(false);
+        tblEnvios.getColumnModel().getColumn(3).setMaxWidth(90);
+        tblEnvios.getColumnModel().getColumn(3).setMinWidth(90);
+        tblEnvios.getColumnModel().getColumn(3).setResizable(false);
+        tblEnvios.getTableHeader().setReorderingAllowed(false);
+    }
     private void btnMensajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMensajeActionPerformed
         /*try {
             // TODO add your handling code here:
@@ -438,12 +456,12 @@ public class menuPrincipal extends javax.swing.JFrame {
                             //System.out.println(it.next().toString());
                             tem = it.next().toString().split(";");
                             //System.out.println(tem[2].toString());
-                            ControladorAltiria.EnviarSms(tem[3], tem[0],tem[1]);
+                            ControladorAltiria.EnviarSms(tem[3], tem[0], tem[1]);
                             System.out.println(tem[3] + " " + tem[0] + " " + tem[1]);
                         }
 
                         JOptionPane.showMessageDialog(null, "Enviados con exito");
-
+                        extraTable();
                         for (int i = 0; i < l.size(); i++) {
                             String tempo[] = null;
                             tempo = l.get(i).toString().split(";");
