@@ -34,7 +34,9 @@ public class VistaMensaje2 extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         AgregarMensaje.setCursor(new Cursor(HAND_CURSOR));
-
+        ImageIcon i = new ImageIcon(getClass().getResource("/Iconos/icons8-email-64.png"));
+        Image i2 = i.getImage();
+        this.setIconImage(i2);
         /*
         try {
             UIManager.setLookAndFeel(new FlatArcIJTheme());
@@ -170,9 +172,13 @@ public class VistaMensaje2 extends javax.swing.JFrame {
     private void AgregarMensajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarMensajeActionPerformed
         // TODO add your handling code here:
         if (!txtCorreoMensaje.getText().equals("") && !txtPasswordMensaje.getText().equals("") && !txtMensaje.getText().equals("")) {
-            ControladorAltiria.AgregerMensaje(txtCorreoMensaje.getText().trim(), txtPasswordMensaje.getText().trim(), txtMensaje.getText().trim());
-            JOptionPane.showMessageDialog(null, "Actualizado con exito");
-            this.dispose();
+            if (txtMensaje.getText().trim().length() > 160) {
+                JOptionPane.showMessageDialog(null, "Error mensaje demasiado largo", "ERROR", JOptionPane.ERROR_MESSAGE);
+            } else {
+                ControladorAltiria.AgregerMensaje(txtCorreoMensaje.getText().trim(), txtPasswordMensaje.getText().trim(), txtMensaje.getText().trim());
+                JOptionPane.showMessageDialog(null, "Actualizado con exito");
+                this.dispose();
+            }
         }
     }//GEN-LAST:event_AgregarMensajeActionPerformed
 
@@ -190,10 +196,11 @@ public class VistaMensaje2 extends javax.swing.JFrame {
         //Terminar de configurar
         if (longitud > 160) {
             txtMensaje.setBorder(BorderFactory.createCompoundBorder(line,
-            BorderFactory.createEmptyBorder(3, 3, 3, 3)));
+                    BorderFactory.createEmptyBorder(3, 3, 3, 3)));
+            JOptionPane.showMessageDialog(null, "Error mensaje demasiado largo", "ERROR", JOptionPane.ERROR_MESSAGE);
         } else {
             txtMensaje.setBorder(BorderFactory.createCompoundBorder(border,
-            BorderFactory.createEmptyBorder(3, 3, 3, 3)));
+                    BorderFactory.createEmptyBorder(3, 3, 3, 3)));
         }
     }//GEN-LAST:event_txtMensajeKeyTyped
 
