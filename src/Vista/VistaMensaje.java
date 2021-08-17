@@ -156,7 +156,7 @@ public class VistaMensaje extends javax.swing.JFrame {
     private void AgregarMensajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarMensajeActionPerformed
         // TODO add your handling code here:
         if (!txtCorreoMensaje.getText().equals("") && !txtPasswordMensaje.getText().equals("") && !txtMensaje.getText().equals("")) {
-            ControladorAltiria.AgregerMensaje(txtCorreoMensaje.getText().trim(), txtPasswordMensaje.getText().trim(), txtMensaje.getText().trim());
+            ControladorAltiria.AgregerMensaje(txtMensaje.getText().trim());
             JOptionPane.showMessageDialog(null, "Actualizado con exito");
             this.dispose();
         }

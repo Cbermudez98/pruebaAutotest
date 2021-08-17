@@ -5,11 +5,14 @@
  */
 package vista;
 
+import Configuracion.TraySystem;
 import Controlador.ControladorAltiria;
 import Controlador.ControladorCorreo;
+import Controlador.ControladorEmpresa;
 import Controlador.ControladorExcel;
 import Controlador.ControladorRevision;
 import Modelo.Correo;
+import Modelo.Empresa;
 import Modelo.Mensaje;
 import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
 import com.sun.awt.AWTUtilities;
@@ -50,6 +53,13 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import Vista.VistaMensaje;
+import java.awt.AWTException;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
+import java.awt.TrayIcon;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.table.TableColumnModel;
 import org.apache.poi.ss.usermodel.Table;
 
@@ -64,6 +74,7 @@ public class menuPrincipal extends javax.swing.JFrame {
      */
     DefaultTableModel dtm = new DefaultTableModel();
     ArrayList l;
+    public static boolean vcorreo = false;
 
     public menuPrincipal() {
         initComponents();
@@ -97,7 +108,8 @@ public class menuPrincipal extends javax.swing.JFrame {
         fecha2.setCursor(new Cursor(HAND_CURSOR));
         fecha1.setSize(70, 20);
         System.out.println("tamaño " + fecha1.getSize());
-
+        //btnMensaje.setVisible(false);
+        //Mensaje.setVisible(false);
         /*try {
             UIManager.setLookAndFeel(new FlatArcIJTheme());
             UIManager.put("Component.arrowType", "chevron");
@@ -169,7 +181,7 @@ public class menuPrincipal extends javax.swing.JFrame {
             }
         });*/
     }
-
+    TraySystem myTrysystem = new TraySystem(this);
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -461,15 +473,17 @@ public class menuPrincipal extends javax.swing.JFrame {
                             System.out.println(tem[3] + " " + tem[0] + " " + tem[1]);
                         }
 
-                        JOptionPane.showMessageDialog(null, "Enviados con exito");
-                        extraTable();
+                        
                         for (int i = 0; i < l.size(); i++) {
                             String tempo[] = null;
                             tempo = l.get(i).toString().split(";");
                             dtm.addRow(tempo);
                         }
-
+                        extraTable();
+                        JOptionPane.showMessageDialog(null, "Enviados con exito");
+                        
                         ControladorExcel.exportarExcelSMS(tblEnvios, full, full2);
+                        ControladorCorreo.enviarReporteAutotest(full,full2);
                     } catch (SQLException ex) {
                         Logger.getLogger(menuPrincipal.class
                                 .getName()).log(Level.SEVERE, null, ex);
@@ -483,7 +497,7 @@ public class menuPrincipal extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btnMensajeActionPerformed
-
+ 
     private void MensajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MensajeActionPerformed
         // TODO add your handling code here:
         VistaMensaje2 v = new VistaMensaje2();
