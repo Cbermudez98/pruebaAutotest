@@ -5,8 +5,6 @@
  */
 package vista;
 
-import Controlador.ConexionBaseDeDatos;
-import Controlador.ControladorCorreo;
 import Controlador.ControladorUsuario;
 import Modelo.Usuario;
 import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
@@ -25,9 +23,6 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
-import jdk.nashorn.internal.runtime.regexp.joni.exception.JOniException;
 
 /**
  *

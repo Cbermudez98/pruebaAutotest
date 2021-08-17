@@ -6,8 +6,6 @@
 package vista;
 
 import Controlador.ControladorAltiria;
-import Controlador.ControladorCorreo;
-import Modelo.Correo;
 import Modelo.Mensaje;
 import java.awt.Color;
 import java.awt.Cursor;

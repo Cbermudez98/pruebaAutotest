@@ -9,8 +9,6 @@ import Controlador.ControladorCorreo;
 import Modelo.Correo;
 import java.awt.Cursor;
 import java.awt.Image;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
