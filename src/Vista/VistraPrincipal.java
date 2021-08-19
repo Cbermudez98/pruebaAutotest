@@ -17,10 +17,14 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
@@ -38,12 +42,14 @@ public class VistraPrincipal extends javax.swing.JFrame {
     public VistraPrincipal() {
         initComponents();
         this.setLocationRelativeTo(null);
+        this.setTitle("Base 64 Conversor");
         Foto1R.setLineWrap(true);
         Foto2R.setLineWrap(true);
         convertirFoto.setCursor(new Cursor(HAND_CURSOR));
         Exportar.setCursor(new Cursor(HAND_CURSOR));
         verFoto1.setCursor(new Cursor(HAND_CURSOR));
         VerFoto2.setCursor(new Cursor(HAND_CURSOR));
+        link.setCursor(new Cursor(HAND_CURSOR));
     }
 
     /**
@@ -69,6 +75,8 @@ public class VistraPrincipal extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         verFoto1 = new javax.swing.JLabel();
         VerFoto2 = new javax.swing.JLabel();
+        link = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -128,6 +136,15 @@ public class VistraPrincipal extends javax.swing.JFrame {
             }
         });
 
+        link.setText("<html><a href='https://github.com/Cbermudez98'>Cbermudez98</a></html>");
+        link.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                linkMouseClicked(evt);
+            }
+        });
+
+        jLabel5.setText("Designed by");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -160,6 +177,10 @@ public class VistraPrincipal extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(link, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 561, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 561, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4))
@@ -188,12 +209,16 @@ public class VistraPrincipal extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(convertirFoto)
                             .addComponent(Exportar))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)))
+                        .addGap(18, 18, Short.MAX_VALUE)))
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(link))
                 .addGap(14, 14, 14))
         );
 
@@ -257,6 +282,8 @@ public class VistraPrincipal extends javax.swing.JFrame {
                 fw.close();
                 fw2.close();
                 JOptionPane.showMessageDialog(null, "Exportado con exito revisar");
+                Desktop.getDesktop().open(txt);
+                Desktop.getDesktop().open(txt2);
             } catch (IOException ex) {
                 Logger.getLogger(VistraPrincipal.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -295,6 +322,19 @@ public class VistraPrincipal extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_VerFoto2MouseClicked
+
+    private void linkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_linkMouseClicked
+        // TODO add your handling code here:
+        URI link;
+        try {
+            link = new URI("https://github.com/Cbermudez98");
+            Desktop.getDesktop().browse(link);
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(VistraPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(VistraPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_linkMouseClicked
 
     private final static String alg = "AES";
     private final static String cI = "AES/CBC/PKCS5Padding";
@@ -366,8 +406,10 @@ public class VistraPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel link;
     private javax.swing.JLabel verFoto1;
     // End of variables declaration//GEN-END:variables
 }

@@ -6,7 +6,9 @@
 package conversosbase64;
 
 import Vista.VistraPrincipal;
+import com.formdev.flatlaf.IntelliJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
+import com.formdev.flatlaf.intellijthemes.*;
 import java.awt.Color;
 import java.awt.Insets;
 import javax.swing.UIManager;
@@ -22,8 +24,9 @@ public class ConversosBase64 {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        //IntelliJTheme.install(ConversosBase64.class.getResourceAsStream("/com/myapp/themes/arc-theme-orange.theme.json\""));
         try {
-            UIManager.setLookAndFeel(new FlatArcIJTheme());
+            UIManager.setLookAndFeel(new FlatArcOrangeIJTheme());
             UIManager.put("Component.arrowType", "chevron");
             UIManager.put("ScrollBar.trackArc", 999);
             UIManager.put("ScrollBar.thumbArc", 999);
